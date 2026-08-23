@@ -149,20 +149,26 @@ const GROUP = {
 // ── PDO DATA ─────────────────────────────────────────────────────────────────
 // Coordinates are approximate geographic centres of each appellation area
 const PDOS = [
-  // Coordinates read from WSET Bordeaux map, adjusted for marker separation
-  { id:1,  name:'Médoc',                       lng:-0.72, lat:45.42, group:'left_red'   },
-  { id:2,  name:'Haut-Médoc',                  lng:-0.78, lat:45.15, group:'left_red'   },
-  { id:3,  name:'Pessac-Léognan',              lng:-0.62, lat:44.78, group:'left_mixed' },
-  { id:4,  name:'Graves',                      lng:-0.65, lat:44.58, group:'left_mixed' },
-  { id:5,  name:'Sauternes',                   lng:-0.60, lat:44.43, group:'sweet'      },
-  { id:6,  name:'Barsac',                      lng:-0.45, lat:44.55, group:'sweet'      },
-  { id:7,  name:'Blaye Côtes de Bordeaux',     lng:-0.48, lat:45.22, group:'cotes'      },
-  { id:8,  name:'Pomerol',                     lng:-0.28, lat:44.95, group:'right_red'  },
-  { id:9,  name:'Saint-Émilion',               lng:-0.13, lat:44.88, group:'right_red'  },
-  { id:10, name:'Francs Côtes de Bordeaux',    lng: 0.08, lat:45.02, group:'cotes'      },
-  { id:11, name:'Castillon Côtes de Bordeaux', lng: 0.16, lat:44.87, group:'cotes'      },
+  // Positions based on WSET Bordeaux map reference
+  { id:1,  name:'Médoc',                       lng:-0.73, lat:45.38, group:'left_red'   },
+  { id:2,  name:'Haut-Médoc',                  lng:-0.75, lat:45.12, group:'left_red'   },
+  { id:3,  name:'Pessac-Léognan',              lng:-0.65, lat:44.73, group:'left_mixed' },
+  { id:4,  name:'Graves',                      lng:-0.63, lat:44.57, group:'left_mixed' },
+  { id:5,  name:'Sauternes',                   lng:-0.58, lat:44.44, group:'sweet'      },
+  { id:6,  name:'Barsac',                      lng:-0.43, lat:44.55, group:'sweet'      },
+  { id:7,  name:'Blaye Côtes de Bordeaux',     lng:-0.45, lat:45.12, group:'cotes'      },
+  { id:8,  name:'Pomerol',                     lng:-0.28, lat:44.97, group:'right_red'  },
+  { id:9,  name:'Saint-Émilion',               lng:-0.14, lat:44.88, group:'right_red'  },
+  { id:10, name:'Francs Côtes de Bordeaux',    lng: 0.07, lat:45.02, group:'cotes'      },
+  { id:11, name:'Castillon Côtes de Bordeaux', lng: 0.14, lat:44.87, group:'cotes'      },
   { id:12, name:'Entre-Deux-Mers',             lng:-0.05, lat:44.73, group:'white'      },
-  { id:13, name:'Cadillac Côtes de Bordeaux',  lng:-0.02, lat:44.57, group:'cotes'      },
+  { id:13, name:'Cadillac Côtes de Bordeaux',  lng:-0.18, lat:44.58, group:'cotes'      },
+];
+
+// Key city landmarks for student orientation
+const LANDMARKS = [
+  { name:'Bordeaux', lng:-0.579, lat:44.838 },
+  { name:'Libourne', lng:-0.244, lat:44.920 },
 ];
 
 let placed = new Set();
@@ -216,6 +222,44 @@ map.on('load', () => {
     paint:{
       'text-color':['get','strokeColor'],
       'text-halo-color':'rgba(255,255,255,0.92)',
+      'text-halo-width':1.5,
+    }
+  });
+
+  // ── Landmark cities ───────────────────────────────────────────────────────
+  map.addSource('landmarks', { type:'geojson', data:{
+    type:'FeatureCollection',
+    features: LANDMARKS.map(l=>({
+      type:'Feature',
+      properties:{ name:l.name },
+      geometry:{ type:'Point', coordinates:[l.lng, l.lat] }
+    }))
+  }});
+
+  map.addLayer({
+    id:'landmark-circles', type:'circle', source:'landmarks',
+    paint:{
+      'circle-radius': 5,
+      'circle-color': 'white',
+      'circle-stroke-width': 2,
+      'circle-stroke-color': '#2c1810',
+    }
+  });
+
+  map.addLayer({
+    id:'landmark-labels', type:'symbol', source:'landmarks',
+    layout:{
+      'text-field':['get','name'],
+      'text-size':11,
+      'text-font':['DIN Pro Medium','Arial Unicode MS Regular'],
+      'text-anchor':'top-left',
+      'text-offset':[0.5, 0.4],
+      'text-allow-overlap':true,
+      'text-ignore-placement':true,
+    },
+    paint:{
+      'text-color':'#2c1810',
+      'text-halo-color':'rgba(255,255,255,0.9)',
       'text-halo-width':1.5,
     }
   });
