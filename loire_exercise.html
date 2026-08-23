@@ -176,37 +176,38 @@ const ZONE_POLYGONS = [
 
 // ── PDO DATA ──────────────────────────────────────────────────────────────────
 const PDOS = [
-  // Nantais — Melon de Bourgogne country
+  // Nantais — positions based on commune locations
   { id:1,  name:'Muscadet',               lng:-1.750, lat:47.22, region:'nantais',
     variety:'Melon de Bourgogne', varColor:'#1A5276' },
   { id:2,  name:'Muscadet Sèvre et Maine',lng:-1.420, lat:47.10, region:'nantais',
     variety:'Melon de Bourgogne', varColor:'#1A5276' },
 
-  // Anjou-Saumur — Chenin & Cab Franc
-  { id:3,  name:'Savennières',            lng:-0.760, lat:47.40, region:'anjou',
-    variety:'Chenin Blanc', varColor:'#1E8449' },
-  { id:4,  name:'Coteaux du Layon',       lng:-0.700, lat:47.18, region:'anjou',
-    variety:'Chenin Blanc (sweet)', varColor:'#1E8449' },
+  // Anjou-Saumur
+  { id:3,  name:'Savennières',            lng:-0.720, lat:47.40, region:'anjou',
+    variety:'Chenin Blanc', varColor:'#1E8449' },       // right bank Loire, SW of Angers
+  { id:4,  name:'Coteaux du Layon',       lng:-0.520, lat:47.26, region:'anjou',
+    variety:'Chenin Blanc (sweet)', varColor:'#1E8449' }, // Layon valley, S of Angers
   { id:5,  name:'Saumur',                 lng:-0.075, lat:47.34, region:'anjou',
     variety:'Chenin Blanc & Cabernet Franc', varColor:'#1E8449' },
   { id:6,  name:'Saumur-Champigny',       lng:-0.020, lat:47.16, region:'anjou',
     variety:'Cabernet Franc', varColor:'#1E8449' },
 
-  // Touraine — Cab Franc & Chenin
-  { id:7,  name:'Vouvray',                lng: 0.780, lat:47.44, region:'touraine',
-    variety:'Chenin Blanc', varColor:'#B7950B' },
-  { id:8,  name:'Bourgueil',              lng: 0.170, lat:47.34, region:'touraine',
-    variety:'Cabernet Franc', varColor:'#B7950B' },
-  { id:9,  name:'Chinon',                 lng: 0.240, lat:47.08, region:'touraine',
-    variety:'Cabernet Franc', varColor:'#B7950B' },
+  // Touraine — Vouvray on map near river; Bourgueil & Chinon on commune labels
+  { id:7,  name:'Vouvray',                lng: 0.800, lat:47.40, region:'touraine',
+    variety:'Chenin Blanc', varColor:'#B7950B' },       // on map label by river
+  { id:8,  name:'Bourgueil',              lng: 0.163, lat:47.31, region:'touraine',
+    variety:'Cabernet Franc', varColor:'#B7950B' },     // commune label position
+  { id:9,  name:'Chinon',                 lng: 0.239, lat:47.14, region:'touraine',
+    variety:'Cabernet Franc', varColor:'#B7950B' },     // commune label position
 
-  // Central Vineyards — Sauvignon Blanc
+  // Central Vineyards — Sancerre (Savigny-en-Sancerre area) left bank
+  //                     Pouilly-Fumé (Pouilly-sur-Loire) right/east bank
   { id:10, name:'Menetou-Salon',          lng: 2.430, lat:47.22, region:'central',
     variety:'Sauvignon Blanc & Pinot Noir', varColor:'#7D3C98' },
-  { id:11, name:'Sancerre',              lng: 2.838, lat:47.38, region:'central',
-    variety:'Sauvignon Blanc & Pinot Noir', varColor:'#7D3C98' },
-  { id:12, name:'Pouilly-Fumé',          lng: 2.960, lat:47.22, region:'central',
-    variety:'Sauvignon Blanc', varColor:'#7D3C98' },
+  { id:11, name:'Sancerre',              lng: 2.820, lat:47.38, region:'central',
+    variety:'Sauvignon Blanc & Pinot Noir', varColor:'#7D3C98' }, // left bank
+  { id:12, name:'Pouilly-Fumé',          lng: 2.975, lat:47.25, region:'central',
+    variety:'Sauvignon Blanc', varColor:'#7D3C98' },    // Pouilly-sur-Loire, east bank
 ];
 
 // Orientation landmarks
