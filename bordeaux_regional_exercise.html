@@ -49,6 +49,9 @@ html, body { width:100%; height:100%; overflow:hidden; font-family:'DM Sans',san
 .chip:hover { border-color:#b8860b; }
 .chip.selected { border-color:#b8860b; background:#fff8e1; font-weight:700; }
 .chip.done { opacity:.2; cursor:default; text-decoration:line-through; color:#999; border-color:#b8d4b8; background:#f0f8f0; pointer-events:none; }
+.chip.commune { background:#fff0ee; border-color:#E8442A; color:#8B1A0A; }
+.chip.commune:hover { border-color:#A82A15; background:#ffe4e0; }
+.chip.commune.selected { background:#ffd4cc; border-color:#A82A15; font-weight:700; }
 
 #toast {
   position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
@@ -92,8 +95,9 @@ html, body { width:100%; height:100%; overflow:hidden; font-family:'DM Sans',san
       <div class="leg-item"><div class="leg-dot" style="background:#B85C00"></div>Right Bank red</div>
       <div class="leg-item"><div class="leg-dot" style="background:#2B5180"></div>Côtes</div>
       <div class="leg-item"><div class="leg-dot" style="background:#2D5A27"></div>Dry white</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#E8442A"></div>Haut-Médoc commune</div>
     </div>
-    <div class="score-pill"><span class="num" id="snum">0</span> / 13 placed</div>
+    <div class="score-pill"><span class="num" id="snum">0</span> / 17 placed</div>
   </div>
 </div>
 <div id="progress"><div id="pfill"></div></div>
@@ -144,6 +148,7 @@ const GROUP = {
   right_red:  { fill:'#B85C00', stroke:'#7B3800', label:'Right Bank red'  },
   cotes:      { fill:'#2B5180', stroke:'#1A3458', label:'Côtes'           },
   white:      { fill:'#2D5A27', stroke:'#1C3A18', label:'Dry white'       },
+  commune:    { fill:'#E8442A', stroke:'#A82A15', label:'Haut-Médoc commune' },
 };
 
 // ── PDO DATA ─────────────────────────────────────────────────────────────────
@@ -169,6 +174,11 @@ const PDOS = [
   { id:12, name:'Entre-Deux-Mers',             lng:-0.020, lat:44.730, group:'white'      },
   // Cadillac CdB — right/east bank of Garonne, opposite Barsac
   { id:13, name:'Cadillac Côtes de Bordeaux',  lng:-0.220, lat:44.620, group:'cotes'      },
+  // Haut-Médoc classified communes — positioned on Mapbox town labels
+  { id:14, name:'Saint-Estèphe',                lng:-0.776, lat:45.259, group:'commune'    },
+  { id:15, name:'Pauillac',                     lng:-0.747, lat:45.196, group:'commune'    },
+  { id:16, name:'Saint-Julien',                 lng:-0.733, lat:45.163, group:'commune'    },
+  { id:17, name:'Margaux',                      lng:-0.672, lat:45.038, group:'commune'    },
 ];
 
 // Key city landmarks for student orientation
@@ -189,7 +199,7 @@ map.on('load', () => {
   map.addLayer({
     id:'pdo-circles', type:'circle', source:'pdos',
     paint:{
-      'circle-radius': 9,
+      'circle-radius': ['match', ['get','group'], 'commune', 7, 9],
       'circle-color': ['get','fillColor'],
       'circle-stroke-width': 2.5,
       'circle-stroke-color': ['get','strokeColor'],
@@ -296,9 +306,9 @@ function buildGeoJSON() {
         type:'Feature',
         properties:{
           id: p.id, name: p.name, state: isPlaced ? 'correct' : 'pending',
-          // Before placement: neutral styling; after: wine-style colour
-          fillColor:   isPlaced ? g.fill   : '#d8d0c0',
-          strokeColor: isPlaced ? g.stroke : '#9a8a7a',
+          // Communes show a light tint before placement; others neutral grey
+          fillColor:   isPlaced ? g.fill   : (p.group === 'commune' ? '#F5A898' : '#d8d0c0'),
+          strokeColor: isPlaced ? g.stroke : (p.group === 'commune' ? '#A82A15' : '#9a8a7a'),
         },
         geometry:{ type:'Point', coordinates:[p.lng, p.lat] }
       };
@@ -321,6 +331,7 @@ function buildBank() {
   shuffle(PDOS).forEach(p => {
     const chip = document.createElement('div');
     chip.className='chip'; chip.textContent=p.name; chip.dataset.id=p.id;
+    if (p.group === 'commune') chip.classList.add('commune');
     chip.onclick = () => selectChip(p.id);
     list.appendChild(chip);
   });
