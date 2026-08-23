@@ -149,20 +149,22 @@ const GROUP = {
 // ── PDO DATA ─────────────────────────────────────────────────────────────────
 // Coordinates are approximate geographic centres of each appellation area
 const PDOS = [
-  // Positions based on WSET Bordeaux map reference
-  { id:1,  name:'Médoc',                       lng:-0.73, lat:45.38, group:'left_red'   },
-  { id:2,  name:'Haut-Médoc',                  lng:-0.75, lat:45.12, group:'left_red'   },
+  // Positions from WSET Bordeaux map — Médoc on west bank of Gironde,
+  // Graves/Barsac/Sauternes adjacent to Garonne left bank,
+  // Cadillac on right/east bank opposite Graves, Pomerol NW of Saint-Émilion
+  { id:1,  name:'Médoc',                       lng:-0.75, lat:45.38, group:'left_red'   },
+  { id:2,  name:'Haut-Médoc',                  lng:-0.72, lat:45.10, group:'left_red'   },
   { id:3,  name:'Pessac-Léognan',              lng:-0.65, lat:44.73, group:'left_mixed' },
-  { id:4,  name:'Graves',                      lng:-0.63, lat:44.57, group:'left_mixed' },
-  { id:5,  name:'Sauternes',                   lng:-0.58, lat:44.44, group:'sweet'      },
-  { id:6,  name:'Barsac',                      lng:-0.43, lat:44.55, group:'sweet'      },
-  { id:7,  name:'Blaye Côtes de Bordeaux',     lng:-0.45, lat:45.12, group:'cotes'      },
-  { id:8,  name:'Pomerol',                     lng:-0.28, lat:44.97, group:'right_red'  },
-  { id:9,  name:'Saint-Émilion',               lng:-0.14, lat:44.88, group:'right_red'  },
+  { id:4,  name:'Graves',                      lng:-0.40, lat:44.64, group:'left_mixed' },
+  { id:5,  name:'Barsac',                      lng:-0.36, lat:44.54, group:'sweet'      },
+  { id:6,  name:'Sauternes',                   lng:-0.38, lat:44.44, group:'sweet'      },
+  { id:7,  name:'Blaye Côtes de Bordeaux',     lng:-0.50, lat:45.12, group:'cotes'      },
+  { id:8,  name:'Pomerol',                     lng:-0.20, lat:44.97, group:'right_red'  },
+  { id:9,  name:'Saint-Émilion',               lng:-0.12, lat:44.88, group:'right_red'  },
   { id:10, name:'Francs Côtes de Bordeaux',    lng: 0.07, lat:45.02, group:'cotes'      },
   { id:11, name:'Castillon Côtes de Bordeaux', lng: 0.14, lat:44.87, group:'cotes'      },
-  { id:12, name:'Entre-Deux-Mers',             lng:-0.05, lat:44.73, group:'white'      },
-  { id:13, name:'Cadillac Côtes de Bordeaux',  lng:-0.18, lat:44.58, group:'cotes'      },
+  { id:12, name:'Entre-Deux-Mers',             lng:-0.02, lat:44.73, group:'white'      },
+  { id:13, name:'Cadillac Côtes de Bordeaux',  lng:-0.18, lat:44.60, group:'cotes'      },
 ];
 
 // Key city landmarks for student orientation
@@ -183,7 +185,7 @@ map.on('load', () => {
   map.addLayer({
     id:'pdo-circles', type:'circle', source:'pdos',
     paint:{
-      'circle-radius': 14,
+      'circle-radius': 11,
       'circle-color': ['get','fillColor'],
       'circle-stroke-width': 2.5,
       'circle-stroke-color': ['get','strokeColor'],
