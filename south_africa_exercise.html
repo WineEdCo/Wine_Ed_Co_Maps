@@ -287,6 +287,19 @@ map.on('load', () => {
 
   map.on('mouseenter','pdo-circles',()=>{ if(selectedId!==null) map.getCanvas().style.cursor='crosshair'; });
   map.on('mouseleave','pdo-circles',()=>{ map.getCanvas().style.cursor=selectedId!==null?'crosshair':''; });
+  // Hide all place name labels from base map style
+  // so only our landmark labels and PDO names show
+  const labelsToHide = [
+    'place-city-label', 'place-town-village-label', 'place-suburb-label',
+    'place-neighborhood-label', 'place-hamlet-label', 'place-country-label',
+    'place-state-label', 'settlement-label', 'settlement-subdivision-label',
+    'airport-label', 'poi-label', 'road-label', 'waterway-label',
+    'natural-point-label', 'natural-line-label',
+  ];
+  labelsToHide.forEach(layer => {
+    if (map.getLayer(layer)) map.setLayoutProperty(layer, 'visibility', 'none');
+  });
+
   map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'bottom-left');
   buildBank();
 });
